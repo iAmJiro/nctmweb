@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 
 const fadeSlide = {
@@ -11,6 +11,10 @@ const fadeSlide = {
 };
 
 const Home = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <main className="bg-black text-white font-[Montserrat] selection:bg-white selection:text-black">
       {/* Hero Section */}

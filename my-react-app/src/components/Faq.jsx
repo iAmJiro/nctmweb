@@ -1,41 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import EmailSection from "./EmailSection";
 
 const faqs = [
   {
-    question: "What is a SAAS platform?",
+    question: "What is NOCTEM?",
     answer:
-      "SAAS platform is a cloud-based software service that allows users to access and use a variety of tools and functionality.",
+      "NOCTEM accommodates clothing for people who are deep in grungy, midnight fashion.",
   },
   {
-    question: "How does billing work?",
+    question: "Who is NOCTEM?",
     answer:
-      "We offer a variety of billing options, including monthly and annual subscription plans, as well as pay-as-you-go pricing for certain services. Payment is typically made through a credit card or other secure online payment method.",
+      "Started by two friends who has the same taste for fashion who currently works corporate. We have tertiary experience in full-stack development and graphic design.",
   },
   {
-    question: "Can I get a refund for my subscription?",
+    question: "Can I get a refund on my order.",
     answer:
       "We offer a 30-day money-back guarantee for most of our subscription plans. If you're not satisfied within the first 30 days, you can request a full refund. Refunds beyond that may be considered case-by-case.",
   },
   {
-    question: "How do I cancel my subscription?",
+    question: "How does billing work?",
     answer:
-      "Log in to your account and navigate to the subscription management page. From there, you can cancel your subscription and stop future billing.",
-  },
-  {
-    question: "Can I try this platform for free?",
-    answer:
-      "We offer a free trial for a limited time. During the trial, you'll have access to a limited set of features without being charged.",
-  },
-  {
-    question: "How do I access documentation?",
-    answer:
-      "Documentation is available on the company's website and can be accessed by logging into your account. It includes detailed usage guides, code examples, and other resources.",
-  },
-  {
-    question: "How do I contact support?",
-    answer:
-      "You can contact our support team by submitting a request through the website or emailing support@We.com.",
+      "We use a popular third-party API called Shopify; this is our chosen API as Shopify has credibility on its legitimacy, giving assurance to our customers.",
   },
   {
     question: "Do you offer any discounts or promotions?",
@@ -43,9 +29,9 @@ const faqs = [
       "We may offer discounts or promotions from time to time. Stay updated by subscribing to our newsletter or following us on social media.",
   },
   {
-    question: "How do we compare to other similar services?",
+    question: "How do I contact support?",
     answer:
-      "This platform is highly reliable and feature-rich, offering a wide range of tools. It's competitively priced with flexible billing options.",
+      "You can contact our support team by submitting a request through the website or emailing support@We.com. Or check below to send an email from this website",
   },
 ];
 
@@ -55,6 +41,9 @@ export default function Faq() {
   const toggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <div className="max-w-screen-xl mx-auto px-5 bg-white min-h-screen md:pt-26 pt-20">
@@ -136,6 +125,7 @@ export default function Faq() {
           </motion.div>
         ))}
       </div>
+      <EmailSection></EmailSection>
     </div>
   );
 }
