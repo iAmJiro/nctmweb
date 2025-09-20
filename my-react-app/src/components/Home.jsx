@@ -9,7 +9,72 @@ const fadeSlide = {
     ease: [0.33, 1, 0.68, 1], // aggressive easeOut
   },
 };
+const ProductCard = ({
+  title = "White Line Dress",
+  imageUrl = "https://klbtheme.com/shopwise/fashion/wp-content/uploads/2020/04/product_img10-1.jpg",
+  price = "$45.00",
+  oldPrice = "$15.00",
+  rating = 4,
+  reviews = 1,
+}) => {
+  return (
+    <div className="w-96">
+      <div className="shadow hover:shadow-lg transition duration-300 ease-in-out mb-6 cursor-pointer group">
+        <div className="overflow-hidden relative">
+          <img
+            className="w-full transition duration-700 ease-in-out group-hover:opacity-60"
+            src={imageUrl}
+            alt={title}
+          />
+          <div className="flex justify-center">
+            <div className="absolute bottom-4 transition duration-500 ease-in-out opacity-0 group-hover:opacity-100 flex gap-2">
+              {["shopping-cart", "random", "search", "heart"].map((icon) => (
+                <a
+                  key={icon}
+                  href="#"
+                  className="bg-gray-700 px-3 py-3 hover:bg-red-500 transition duration-300 ease-in-out"
+                >
+                  <i
+                    className={`fas fa-${icon} text-gray-100 flex justify-center items-center`}
+                  ></i>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
 
+        <div className="px-4 py-3 bg-white">
+          <a href="#">
+            <h1 className="text-gray-800 font-semibold text-lg hover:text-red-500 transition duration-300 ease-in-out">
+              {title}
+            </h1>
+          </a>
+          <div className="flex py-2">
+            <p className="mr-2 text-xs text-gray-600">{price}</p>
+            <p className="mr-2 text-xs text-red-600 line-through">{oldPrice}</p>
+          </div>
+          <div className="flex items-center">
+            <div>
+              {[...Array(5)].map((_, i) => (
+                <i
+                  key={i}
+                  className={`text-xs ${
+                    i < rating
+                      ? "fas fa-star text-yellow-400"
+                      : "far fa-star text-gray-400"
+                  }`}
+                ></i>
+              ))}
+            </div>
+            <div className="ml-2">
+              <p className="text-gray-500 font-medium text-sm">({reviews})</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 const Home = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -78,95 +143,18 @@ const Home = () => {
               transition={{ delay: 1.4, duration: 0.6 }}
               className="group px-8 sm:px-12 py-4 border border-white text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500 flex items-center gap-4"
             >
-              EXPLORE COLLECTION
+              FEATURED COLLECTION
               <span className="h-[1px] w-8 bg-current transform transition-transform group-hover:translate-x-2"></span>
             </motion.button>
           </div>
         </motion.div>
       </section>
-
-      {/* Scrolling Marquee */}
-      <section className="overflow-hidden py-4 sm:py-8 bg-white text-black border-y border-black/20">
-        <div className="relative w-full">
-          <motion.div
-            initial={{ x: 0 }}
-            animate={{ x: "-50%" }}
-            transition={{
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 50, // slower for smoother flow
-              ease: "linear",
-            }}
-            className="flex whitespace-nowrap min-w-[200%]"
-          >
-            <div className="flex gap-24 text-[80px] sm:text-[120px] md:text-[180px] font-light leading-none opacity-90">
-              {Array(4)
-                .fill("TAILORED EXCELLENCE")
-                .map((text, i) => (
-                  <span key={i}>{text}</span>
-                ))}
-            </div>
-            <div className="flex gap-24 text-[80px] sm:text-[120px] md:text-[180px] font-light leading-none opacity-90">
-              {Array(4)
-                .fill("TAILORED EXCELLENCE")
-                .map((text, i) => (
-                  <span key={`clone-${i}`}>{text}</span>
-                ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Featured Collection */}
-      <section className="py-20 sm:py-40 px-4 sm:px-8">
-        <div className="max-w-[2000px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-20">
-          {/* Text Content */}
-          <motion.div
-            {...fadeSlide}
-            className="space-y-8 sm:space-y-12 self-center"
-          >
-            <div className="space-y-4">
-              <p className="text-sm tracking-[0.2em] text-white/60">
-                2024 COLLECTION
-              </p>
-              <h2 className="text-4xl sm:text-5xl font-light tracking-wide font-[Cormorant_Garamond]">
-                AUTUMN /<br />
-                WINTER
-              </h2>
-            </div>
-            <p className="text-white/70 leading-relaxed text-base sm:text-lg">
-              Our latest collection embodies the perfect fusion of traditional
-              craftsmanship and contemporary design. Each piece is meticulously
-              crafted to stand the test of time.
-            </p>
-            <button className="group w-full sm:w-auto text-sm tracking-[0.2em] hover:text-white/50 transition-colors flex items-center justify-center sm:justify-start gap-6">
-              VIEW COLLECTION
-              <span className="h-[1px] w-12 bg-current transform transition-transform group-hover:translate-x-4"></span>
-            </button>
-          </motion.div>
-
-          {/* Image Grid */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-6"
-          >
-            <motion.img
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.4 }}
-              src="https://images.unsplash.com/photo-1594938328870-9623159c8c99"
-              alt="Suit Detail"
-              className="w-full aspect-[3/4] object-cover"
-            />
-            <motion.img
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.4 }}
-              src="https://images.unsplash.com/photo-1598808503746-f34c53b9323e"
-              alt="Suit Detail"
-              className="w-full aspect-[3/4] object-cover sm:mt-20"
-            />
-          </motion.div>
+      <section className="py-2 sm:py-2 px-4 sm:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 justify-items-center">
+          {[...Array(5)].map((_, index) => (
+            <ProductCard key={index} />
+          ))}
         </div>
       </section>
     </main>

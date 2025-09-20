@@ -46,7 +46,7 @@ export default function Faq() {
   }, []);
 
   return (
-    <div className="max-w-screen-xl mx-auto px-5 bg-white min-h-screen md:pt-26 pt-20">
+    <div className="max-w-screen-xl mx-auto px-5 bg-white min-h-screen md:pt-44 pt-24">
       <div className="flex flex-col items-center">
         <motion.h2
           initial={{ opacity: 0, y: -30 }}

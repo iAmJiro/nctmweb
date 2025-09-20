@@ -35,7 +35,7 @@ function EmailSection() {
         </h1>
 
         <div className="contact-icons flex flex-col sm:flex-row items-center justify-center text-center mx-auto gap-4">
-          <div className="flex flex-row items-center">
+          {/* <div className="flex flex-row items-center">
             <img
               src="https://img.icons8.com/material-sharp/24/marker.png"
               alt="location icon"
@@ -44,7 +44,7 @@ function EmailSection() {
               className="mr-2"
             />
             <span>Location</span>
-          </div>
+          </div> */}
 
           <div className="flex flex-row items-center">
             <img

@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function NavbarTwo() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
     { label: "HOME", path: "/" },
     { label: "RELEASE", path: "/release" },
-    { label: "CONTACT US", path: "/contact" },
+    { label: "ABOUT US", path: "/aboutus" },
     { label: "FAQ", path: "/faq" },
   ];
 
   return (
     <>
       {/* Main Navigation */}
-      <nav className="fixed w-full z-50 border-b border-white/10 backdrop-blur-md bg-black/10">
+      <nav className="fixed top-10 w-full z-50 border-b border-white/10 backdrop-blur-md bg-black/10">
         <div className="max-w-[2000px] mx-auto px-4 sm:px-8">
           <div className="flex justify-between items-center h-24">
             {/* Logo */}
@@ -73,4 +73,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NavbarTwo;
