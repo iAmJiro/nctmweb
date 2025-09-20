@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 function Marquee() {
   return (
-    <section className="fixed top-0 left-0 w-full z-40 overflow-hidden py-6 sm:py-2 bg-white text-black border-y border-black/20">
+    <section className="fixed top-0 left-0 w-full z-100 overflow-hidden py-6 sm:py-2 bg-white text-white border-y border-black/20">
       <div className="relative w-full">
         <motion.div
           initial={{ x: 0 }}
@@ -18,7 +18,7 @@ function Marquee() {
         >
           <div className="flex gap-12 text-[12px] sm:text-[16px] md:text-[18px] font-light leading-tight opacity-90">
             {Array(100)
-              .fill("TAILORED EXCELLENCE")
+              .fill("TAILORED EXCELLENCE & WORLDWIDE SHIPPING")
               .map((text, i) => (
                 <span key={i}>{text}</span>
               ))}
