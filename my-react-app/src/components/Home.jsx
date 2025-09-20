@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 const fadeSlide = {
@@ -9,6 +9,7 @@ const fadeSlide = {
     ease: [0.33, 1, 0.68, 1], // aggressive easeOut
   },
 };
+
 const ProductCard = ({
   title = "White Line Dress",
   imageUrl = "https://klbtheme.com/shopwise/fashion/wp-content/uploads/2020/04/product_img10-1.jpg",
@@ -16,75 +17,79 @@ const ProductCard = ({
   oldPrice = "$15.00",
   rating = 4,
   reviews = 1,
-}) => {
-  return (
-    <div className="w-96">
-      <div className="shadow hover:shadow-lg transition duration-300 ease-in-out mb-6 cursor-pointer group">
-        <div className="overflow-hidden relative">
-          <img
-            className="w-full transition duration-700 ease-in-out group-hover:opacity-60"
-            src={imageUrl}
-            alt={title}
-          />
-          <div className="flex justify-center">
-            <div className="absolute bottom-4 transition duration-500 ease-in-out opacity-0 group-hover:opacity-100 flex gap-2">
-              {["shopping-cart", "random", "search", "heart"].map((icon) => (
-                <a
-                  key={icon}
-                  href="#"
-                  className="bg-gray-700 px-3 py-3 hover:bg-red-500 transition duration-300 ease-in-out"
-                >
-                  <i
-                    className={`fas fa-${icon} text-gray-100 flex justify-center items-center`}
-                  ></i>
-                </a>
-              ))}
-            </div>
+}) => (
+  <div className="w-96">
+    <div className="shadow hover:shadow-lg transition duration-300 ease-in-out mb-6 cursor-pointer group">
+      <div className="overflow-hidden relative">
+        <img
+          className="w-full transition duration-700 ease-in-out group-hover:opacity-60"
+          src={imageUrl}
+          alt={title}
+        />
+        <div className="flex justify-center">
+          <div className="absolute bottom-4 transition duration-500 ease-in-out opacity-0 group-hover:opacity-100 flex gap-2">
+            {["shopping-cart", "random", "search", "heart"].map((icon) => (
+              <a
+                key={icon}
+                href="#"
+                className="bg-gray-700 px-3 py-3 hover:bg-red-500 transition duration-300 ease-in-out"
+              >
+                <i
+                  className={`fas fa-${icon} text-gray-100 flex justify-center items-center`}
+                ></i>
+              </a>
+            ))}
           </div>
         </div>
+      </div>
 
-        <div className="px-4 py-3 bg-white">
-          <a href="#">
-            <h1 className="text-gray-800 font-semibold text-lg hover:text-red-500 transition duration-300 ease-in-out">
-              {title}
-            </h1>
-          </a>
-          <div className="flex py-2">
-            <p className="mr-2 text-xs text-gray-600">{price}</p>
-            <p className="mr-2 text-xs text-red-600 line-through">{oldPrice}</p>
+      <div className="px-4 py-3 bg-white">
+        <a href="#">
+          <h1 className="text-gray-800 font-semibold text-lg hover:text-red-500 transition duration-300 ease-in-out">
+            {title}
+          </h1>
+        </a>
+        <div className="flex py-2">
+          <p className="mr-2 text-xs text-gray-600">{price}</p>
+          <p className="mr-2 text-xs text-red-600 line-through">{oldPrice}</p>
+        </div>
+        <div className="flex items-center">
+          <div>
+            {[...Array(5)].map((_, i) => (
+              <i
+                key={i}
+                className={`text-xs ${
+                  i < rating
+                    ? "fas fa-star text-yellow-400"
+                    : "far fa-star text-gray-400"
+                }`}
+              ></i>
+            ))}
           </div>
-          <div className="flex items-center">
-            <div>
-              {[...Array(5)].map((_, i) => (
-                <i
-                  key={i}
-                  className={`text-xs ${
-                    i < rating
-                      ? "fas fa-star text-yellow-400"
-                      : "far fa-star text-gray-400"
-                  }`}
-                ></i>
-              ))}
-            </div>
-            <div className="ml-2">
-              <p className="text-gray-500 font-medium text-sm">({reviews})</p>
-            </div>
+          <div className="ml-2">
+            <p className="text-gray-500 font-medium text-sm">({reviews})</p>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  </div>
+);
+
 const Home = () => {
+  const featuredRef = useRef(null);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  const scrollToFeatured = () => {
+    featuredRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <main className="bg-black text-white font-[Montserrat] selection:bg-white selection:text-black">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center">
-        {/* Background Image */}
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1507679799987-c73779587ccf"
@@ -94,7 +99,6 @@ const Home = () => {
           <div className="absolute inset-0 image-gradient"></div>
         </div>
 
-        {/* Hero Content */}
         <motion.div
           {...fadeSlide}
           className="relative z-10 max-w-[2000px] px-4 sm:px-8 ml-10 pt-32"
@@ -141,6 +145,7 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: [1, 1.05, 0.98, 1.02, 1] }}
               transition={{ delay: 1.4, duration: 0.6 }}
+              onClick={scrollToFeatured}
               className="group px-8 sm:px-12 py-4 border border-white text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500 flex items-center gap-4"
             >
               FEATURED COLLECTION
@@ -149,8 +154,9 @@ const Home = () => {
           </div>
         </motion.div>
       </section>
+
       {/* Featured Collection */}
-      <section className="py-2 sm:py-2 px-4 sm:px-8">
+      <section ref={featuredRef} className="py-2 sm:py-2 px-4 sm:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 justify-items-center">
           {[...Array(5)].map((_, index) => (
             <ProductCard key={index} />
