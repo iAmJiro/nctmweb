@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const fadeSlide = {
@@ -6,7 +6,7 @@ const fadeSlide = {
   animate: { opacity: 1, x: 0 },
   transition: {
     duration: 0.4,
-    ease: [0.33, 1, 0.68, 1], // aggressive easeOut
+    ease: [0.33, 1, 0.68, 1],
   },
 };
 
@@ -75,11 +75,87 @@ const ProductCard = ({
   </div>
 );
 
+const HeroSection = ({ scrollToFeatured }) => (
+  <div className="relative flex-1 min-h-screen flex items-center">
+    <div className="absolute inset-0">
+      <img
+        src="https://images.unsplash.com/photo-1507679799987-c73779587ccf"
+        alt="Luxury Suit"
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 image-gradient"></div>
+    </div>
+
+    <motion.div
+      {...fadeSlide}
+      className="relative z-10 max-w-[2000px] px-4 sm:px-8 ml-10 pt-32"
+    >
+      <div className="max-w-4xl space-y-8">
+        <motion.p
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="text-sm tracking-[0.3em]"
+        >
+          NCTM - Graveyard Shift
+        </motion.p>
+
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: [1, 1.1, 0.98, 1.02, 1] }}
+          transition={{ delay: 0.5, duration: 0.7 }}
+          className="text-[12vw] md:text-[7vw] font-light leading-[0.9] font-[Cormorant_Garamond]"
+        >
+          seize the
+          <br />
+          NIGHT
+        </motion.h1>
+
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: "8rem" }}
+          transition={{ delay: 0.8, duration: 0.4 }}
+          className="h-[1px] bg-white"
+        />
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.1, duration: 0.5 }}
+          className="text-lg sm:text-xl font-light tracking-wide text-white/80 max-w-xl leading-relaxed"
+        >
+          Experience the epitome of tailoring excellence, where every stitch
+          tells a story of uncompromising quality and timeless elegance.
+        </motion.p>
+
+        <motion.button
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: [1, 1.05, 0.98, 1.02, 1] }}
+          transition={{ delay: 1.4, duration: 0.6 }}
+          onClick={scrollToFeatured}
+          className="group px-8 sm:px-12 py-4 border border-white text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500 flex items-center gap-4"
+        >
+          FEATURED COLLECTION
+          <span className="h-[1px] w-8 bg-current transform transition-transform group-hover:translate-x-2"></span>
+        </motion.button>
+      </div>
+    </motion.div>
+  </div>
+);
+
 const Home = () => {
   const featuredRef = useRef(null);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mediaQuery.matches);
+
+    const handleResize = () => setIsDesktop(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleResize);
+    return () => mediaQuery.removeEventListener("change", handleResize);
   }, []);
 
   const scrollToFeatured = () => {
@@ -88,71 +164,10 @@ const Home = () => {
 
   return (
     <main className="bg-black text-white font-[Montserrat] selection:bg-white selection:text-black">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf"
-            alt="Luxury Suit"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 image-gradient"></div>
-        </div>
-
-        <motion.div
-          {...fadeSlide}
-          className="relative z-10 max-w-[2000px] px-4 sm:px-8 ml-10 pt-32"
-        >
-          <div className="max-w-4xl space-y-8">
-            <motion.p
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="text-sm tracking-[0.3em]"
-            >
-              NCTM - Graveyard Shift
-            </motion.p>
-
-            <motion.h1
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: [1, 1.1, 0.98, 1.02, 1] }}
-              transition={{ delay: 0.5, duration: 0.7 }}
-              className="text-[12vw] md:text-[7vw] font-light leading-[0.9] font-[Cormorant_Garamond]"
-            >
-              seize the
-              <br />
-              NIGHT
-            </motion.h1>
-
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "8rem" }}
-              transition={{ delay: 0.8, duration: 0.4 }}
-              className="h-[1px] bg-white"
-            />
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1, duration: 0.5 }}
-              className="text-lg sm:text-xl font-light tracking-wide text-white/80 max-w-xl leading-relaxed"
-            >
-              Experience the epitome of tailoring excellence, where every stitch
-              tells a story of uncompromising quality and timeless elegance.
-            </motion.p>
-
-            <motion.button
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: [1, 1.05, 0.98, 1.02, 1] }}
-              transition={{ delay: 1.4, duration: 0.6 }}
-              onClick={scrollToFeatured}
-              className="group px-8 sm:px-12 py-4 border border-white text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500 flex items-center gap-4"
-            >
-              FEATURED COLLECTION
-              <span className="h-[1px] w-8 bg-current transform transition-transform group-hover:translate-x-2"></span>
-            </motion.button>
-          </div>
-        </motion.div>
+      {/* Responsive Hero Section */}
+      <section className="flex flex-col md:flex-row min-h-screen">
+        <HeroSection scrollToFeatured={scrollToFeatured} />
+        {isDesktop && <HeroSection scrollToFeatured={scrollToFeatured} />}
       </section>
 
       {/* Featured Collection */}
