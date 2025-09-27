@@ -168,10 +168,10 @@ const NewsletterPopup = ({ isOpen, onClose }) => {
 
     // ✅ Send email using EmailJS
     emailjs
-      .sendForm(
+      .send(
         "service_hyexll9", // Service ID
         "template_ojkknut", // Template ID
-        { email }, // Template parameters
+        { email: email }, // Template parameters
         "byMpOZOmxO-zU25xa" // Public Key
       )
       .then(
