@@ -1,51 +1,56 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import emailjs from "emailjs-com";
+import AlertForContact from "./Alerts/AlertForContact";
 
 function EmailSection() {
   const form = useRef();
+  const [alert, setAlert] = useState(null); // { type, message }
 
   const sendEmail = (e) => {
     e.preventDefault();
 
     emailjs
       .sendForm(
-        "service_hyexll9", // Replace with your Email.js service ID
-        "template_yglvh78", // Replace with your Email.js template ID
+        "service_hyexll9", // Service ID
+        "template_yglvh78", // Template ID
         form.current,
-        "byMpOZOmxO-zU25xa" // Replace with your Email.js public key
+        "byMpOZOmxO-zU25xa" // Public key
       )
       .then(
         (result) => {
           console.log("Email sent:", result.text);
-          alert("Message sent successfully!");
+          setAlert({
+            type: "success",
+            message: "Message sent successfully!",
+          });
           form.current.reset();
         },
         (error) => {
           console.error("Email error:", error.text);
-          alert("Failed to send message. Please try again.");
+          setAlert({
+            type: "error",
+            message: "Failed to send message. Please try again.",
+          });
         }
       );
   };
 
   return (
     <div className="md:pt-6">
+      {alert && (
+        <AlertForContact
+          type={alert.type}
+          message={alert.message}
+          onClose={() => setAlert(null)}
+        />
+      )}
+
       <div className="heading mx-auto text-center">
         <h1 className="mx-auto my-5 text-center text-3xl sm:text-4xl font-bold">
           Your question not in the FAQ?
         </h1>
 
         <div className="contact-icons flex flex-col sm:flex-row items-center justify-center text-center mx-auto gap-4">
-          {/* <div className="flex flex-row items-center">
-            <img
-              src="https://img.icons8.com/material-sharp/24/marker.png"
-              alt="location icon"
-              width="25"
-              height="25"
-              className="mr-2"
-            />
-            <span>Location</span>
-          </div> */}
-
           <div className="flex flex-row items-center">
             <img
               src="https://img.icons8.com/material-rounded/96/mail.png"

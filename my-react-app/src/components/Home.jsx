@@ -124,7 +124,7 @@ const HeroSection = ({ scrollToFeatured, openNewsletter }) => (
             animate={{ opacity: 1, scale: [1, 1.05, 0.98, 1.02, 1] }}
             transition={{ delay: 1.4, duration: 0.6 }}
             onClick={scrollToFeatured}
-            className="group px-8 sm:px-12 py-4 border bg-black border-white text-xs tracking-[0.2em] hover:text-sm hover:text-black transition-all duration-500 flex items-center gap-4"
+            className="group px-8 sm:px-12 py-4 border bg-black border-white text-xs tracking-[0.2em] hover:text-sm text-white hover:text-black dark:hover:text-white transition-all duration-500 flex items-center gap-4"
           >
             FEATURED COLLECTION
             <span className="h-[1px] w-8 bg-current transform transition-transform group-hover:translate-x-2"></span>
@@ -135,7 +135,7 @@ const HeroSection = ({ scrollToFeatured, openNewsletter }) => (
             animate={{ opacity: 1, scale: [1, 1.05, 0.98, 1.02, 1] }}
             transition={{ delay: 1.6, duration: 0.6 }}
             onClick={openNewsletter}
-            className="group px-8 sm:px-12 py-4 border bg-black border-white text-xs tracking-[0.2em] hover:text-sm hover:text-black transition-all duration-500 flex items-center gap-4"
+            className="group px-8 sm:px-12 py-4 border bg-black border-white text-xs tracking-[0.2em] hover:text-sm text-white hover:text-black dark:hover:text-white transition-all duration-500 flex items-center gap-4"
           >
             SUBSCRIBE TO NEWSLETTER
             <span className="h-[1px] w-8 bg-current transform transition-transform group-hover:translate-x-2"></span>

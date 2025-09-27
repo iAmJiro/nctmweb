@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 function Marquee() {
   return (
-    <section className="fixed top-0 left-0 w-full z-[100] overflow-hidden py-6 sm:py-2 dark:bg-white bg-white border-y border-black/20">
+    <section className="fixed top-0 left-0 w-full z-[100] overflow-hidden py-4 sm:py-0 dark:bg-white bg-white border-y border-black/20">
       <div className="relative w-full">
         <motion.div
           initial={{ x: 0 }}
