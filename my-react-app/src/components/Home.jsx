@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import emailjs from "emailjs-com"; // ✅ import EmailJS
 
 const fadeSlide = {
   initial: { opacity: 0, x: -100 },
   animate: { opacity: 1, x: 0 },
-  transition: {
-    duration: 0.4,
-    ease: [0.33, 1, 0.68, 1],
-  },
+  transition: { duration: 0.4, ease: [0.33, 1, 0.68, 1] },
 };
 
 const ProductCard = ({
@@ -26,20 +24,16 @@ const ProductCard = ({
           src={imageUrl}
           alt={title}
         />
-        <div className="flex justify-center">
-          <div className="absolute bottom-4 transition duration-500 ease-in-out opacity-0 group-hover:opacity-100 flex gap-2">
-            {["shopping-cart", "random", "search", "heart"].map((icon) => (
-              <a
-                key={icon}
-                href="#"
-                className="bg-gray-700 px-3 py-3 hover:bg-red-500 transition duration-300 ease-in-out"
-              >
-                <i
-                  className={`fas fa-${icon} text-gray-100 flex justify-center items-center`}
-                ></i>
-              </a>
-            ))}
-          </div>
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 flex gap-2 transition duration-500 ease-in-out">
+          {["shopping-cart", "random", "search", "heart"].map((icon) => (
+            <a
+              key={icon}
+              href="#"
+              className="bg-gray-700 px-3 py-3 hover:bg-red-500 transition duration-300 ease-in-out"
+            >
+              <i className={`fas fa-${icon} text-gray-100`}></i>
+            </a>
+          ))}
         </div>
       </div>
 
@@ -54,28 +48,24 @@ const ProductCard = ({
           <p className="mr-2 text-xs text-red-600 line-through">{oldPrice}</p>
         </div>
         <div className="flex items-center">
-          <div>
-            {[...Array(5)].map((_, i) => (
-              <i
-                key={i}
-                className={`text-xs ${
-                  i < rating
-                    ? "fas fa-star text-yellow-400"
-                    : "far fa-star text-gray-400"
-                }`}
-              ></i>
-            ))}
-          </div>
-          <div className="ml-2">
-            <p className="text-gray-500 font-medium text-sm">({reviews})</p>
-          </div>
+          {[...Array(5)].map((_, i) => (
+            <i
+              key={i}
+              className={`text-xs ${
+                i < rating
+                  ? "fas fa-star text-yellow-400"
+                  : "far fa-star text-gray-400"
+              }`}
+            ></i>
+          ))}
+          <p className="ml-2 text-gray-500 font-medium text-sm">({reviews})</p>
         </div>
       </div>
     </div>
   </div>
 );
 
-const HeroSection = ({ scrollToFeatured }) => (
+const HeroSection = ({ scrollToFeatured, openNewsletter }) => (
   <div className="relative flex-1 min-h-screen flex items-center">
     <div className="absolute inset-0">
       <img
@@ -128,24 +118,143 @@ const HeroSection = ({ scrollToFeatured }) => (
           tells a story of uncompromising quality and timeless elegance.
         </motion.p>
 
-        <motion.button
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: [1, 1.05, 0.98, 1.02, 1] }}
-          transition={{ delay: 1.4, duration: 0.6 }}
-          onClick={scrollToFeatured}
-          className="group px-8 sm:px-12 py-4 border border-white text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500 flex items-center gap-4"
-        >
-          FEATURED COLLECTION
-          <span className="h-[1px] w-8 bg-current transform transition-transform group-hover:translate-x-2"></span>
-        </motion.button>
+        <div className="space-y-4">
+          <motion.button
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: [1, 1.05, 0.98, 1.02, 1] }}
+            transition={{ delay: 1.4, duration: 0.6 }}
+            onClick={scrollToFeatured}
+            className="group px-8 sm:px-12 py-4 border bg-black border-white text-xs tracking-[0.2em] hover:text-sm hover:text-black transition-all duration-500 flex items-center gap-4"
+          >
+            FEATURED COLLECTION
+            <span className="h-[1px] w-8 bg-current transform transition-transform group-hover:translate-x-2"></span>
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: [1, 1.05, 0.98, 1.02, 1] }}
+            transition={{ delay: 1.6, duration: 0.6 }}
+            onClick={openNewsletter}
+            className="group px-8 sm:px-12 py-4 border bg-black border-white text-xs tracking-[0.2em] hover:text-sm hover:text-black transition-all duration-500 flex items-center gap-4"
+          >
+            SUBSCRIBE TO NEWSLETTER
+            <span className="h-[1px] w-8 bg-current transform transition-transform group-hover:translate-x-2"></span>
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   </div>
 );
 
+const HeroImageOnly = () => (
+  <div className="relative flex-1 min-h-screen">
+    <div className="absolute inset-0">
+      <img
+        src="https://images.unsplash.com/photo-1507679799987-c73779587ccf"
+        alt="Luxury Suit"
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 image-gradient"></div>
+    </div>
+  </div>
+);
+
+const NewsletterPopup = ({ isOpen, onClose }) => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // ✅ Send email using EmailJS
+    emailjs
+      .sendForm(
+        "service_hyexll9", // Service ID
+        "template_ojkknut", // Template ID
+        { email }, // Template parameters
+        "byMpOZOmxO-zU25xa" // Public Key
+      )
+      .then(
+        () => {
+          setStatus("success");
+          setEmail("");
+          setTimeout(() => {
+            setStatus("");
+            onClose();
+          }, 2000);
+        },
+        (error) => {
+          console.error("EmailJS error:", error);
+          setStatus("error");
+        }
+      );
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white text-black p-8 rounded-2xl w-full max-w-md shadow-lg relative"
+          >
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-gray-600 hover:text-black"
+            >
+              ✕
+            </button>
+            <h2 className="text-2xl font-semibold mb-4">
+              Subscribe to our Newsletter
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Get the latest updates, offers, and style inspiration directly to
+              your inbox.
+            </p>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="border px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              />
+              <button
+                type="submit"
+                className="bg-black text-white py-3 rounded-md hover:bg-gray-800 transition"
+              >
+                Subscribe
+              </button>
+            </form>
+
+            {status === "success" && (
+              <p className="text-green-600 mt-4">✅ Subscribed successfully!</p>
+            )}
+            {status === "error" && (
+              <p className="text-red-600 mt-4">
+                ❌ Something went wrong. Please try again.
+              </p>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const Home = () => {
   const featuredRef = useRef(null);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [showNewsletter, setShowNewsletter] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -164,13 +273,14 @@ const Home = () => {
 
   return (
     <main className="bg-black text-white font-[Montserrat] selection:bg-white selection:text-black">
-      {/* Responsive Hero Section */}
       <section className="flex flex-col md:flex-row min-h-screen">
-        <HeroSection scrollToFeatured={scrollToFeatured} />
-        {isDesktop && <HeroSection scrollToFeatured={scrollToFeatured} />}
+        <HeroSection
+          scrollToFeatured={scrollToFeatured}
+          openNewsletter={() => setShowNewsletter(true)}
+        />
+        {isDesktop && <HeroImageOnly />}
       </section>
 
-      {/* Featured Collection */}
       <section ref={featuredRef} className="py-2 sm:py-2 px-4 sm:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 justify-items-center">
           {[...Array(5)].map((_, index) => (
@@ -178,6 +288,12 @@ const Home = () => {
           ))}
         </div>
       </section>
+
+      {/* Newsletter Modal */}
+      <NewsletterPopup
+        isOpen={showNewsletter}
+        onClose={() => setShowNewsletter(false)}
+      />
     </main>
   );
 };
